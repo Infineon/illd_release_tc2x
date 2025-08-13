@@ -303,6 +303,9 @@ const uint32 BootModeHeader_1[] = {
     0x791eb864u,                 /* CRChead */
     0x86e1479bu                  /* !CRChead */
 };
+#endif /*IFX_CFG_CPUCSTART_BMI01_NOT_NEEDED*/
+
+#endif /*IFX_CFG_CPUCSTART_BMHD_NOT_NEEDED*/
 
 /*reset the sections defined above */
 #if defined(__TASKING__)
@@ -344,8 +347,5 @@ extern void exit(int);     /* cpp deinitialization */
 #endif
 }
 #endif /*IFX_CFG_RETURN_FROM_MAIN*/
-#endif /*IFX_CFG_CPUCSTART_BMI01_NOT_NEEDED*/
-
-#endif /*IFX_CFG_CPUCSTART_BMHD_NOT_NEEDED*/
 
 #endif /*#ifndef IFX_CFG_USE_COMPILER_DEFAULT_LINKER */
