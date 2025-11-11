@@ -2,7 +2,7 @@
  * \file IfxVadc_Adc.c
  * \brief VADC ADC details
  *
- * \version iLLD_1_20_0
+ * \version iLLD_1_21_0
  * \copyright Copyright (c) 2023 Infineon Technologies AG. All rights reserved.
  *
  *
@@ -50,6 +50,13 @@
 /** \addtogroup IfxLld_Vadc_Adc_Group
  * \{ */
 /******************************************************************************/
+/*------------------------------------------------------Macros----------------*/
+/******************************************************************************/
+
+#define IFXVADC_SYNCHRONIZATION_GROUPS  2
+#define IFXVADC_MAX_SLAVE_GROUPS        1
+
+/******************************************************************************/
 /*------------------------Inline Function Prototypes--------------------------*/
 /******************************************************************************/
 
@@ -66,6 +73,13 @@ IFX_INLINE IfxVadc_GroupId IfxVadc_Adc_getMasterId(IfxVadc_GroupId slave, IfxVad
  * \return current master kernel index
  */
 IFX_INLINE IfxVadc_Adc_SYNCTR_STSEL IfxVadc_Adc_getMasterKernelIndex(IfxVadc_GroupId slave, IfxVadc_GroupId master);
+
+/** \brief Gets the evalr index.
+ * \param adcGroup Index of the group
+ * \param groupToCheck Index of the group
+ * \return evalr index
+ */
+IFX_INLINE IfxVadc_Adc_SYNCTR_STSEL IfxVadc_Adc_getEvalrIndex(IfxVadc_GroupId adcGroup, IfxVadc_GroupId groupToCheck);
 
 /** \} */
 
@@ -117,6 +131,12 @@ IFX_INLINE IfxVadc_GroupId IfxVadc_Adc_getMasterId(IfxVadc_GroupId slave, IfxVad
 IFX_INLINE IfxVadc_Adc_SYNCTR_STSEL IfxVadc_Adc_getMasterKernelIndex(IfxVadc_GroupId slave, IfxVadc_GroupId master)
 {
     return IfxVadc_Adc_masterIndex[slave][master];
+}
+
+
+IFX_INLINE IfxVadc_Adc_SYNCTR_STSEL IfxVadc_Adc_getEvalrIndex(IfxVadc_GroupId adcGroup, IfxVadc_GroupId groupToCheck)
+{
+    return IfxVadc_Adc_masterIndex[groupToCheck][adcGroup];
 }
 
 
@@ -520,14 +540,119 @@ IfxVadc_Status IfxVadc_Adc_initGroup(IfxVadc_Adc_Group *group, const IfxVadc_Adc
     }
 
     /* master slave configuration */
-    if (config->master != groupIndex)
+    if (config->slaves == 0u)
     {
-        uint8 masterIndex = IfxVadc_Adc_getMasterKernelIndex(groupIndex, config->master);
-        IfxVadc_setMasterIndex(vadcG, masterIndex);
+        /* If no slave groups are configured (pure master mode) */
+        if (config->master != groupIndex)
+        {
+            uint8 masterIndex = IfxVadc_Adc_getMasterKernelIndex(groupIndex, config->master);
+            IfxVadc_setMasterIndex(vadcG, masterIndex);
+        }
+        else
+        {
+            /* Current group is the master; no further action needed */
+        }
     }
     else
+    /* Slave groups are configured; setup synchronization between master and slaves */
     {
-        /* do nothing */
+        uint8 evalrIndex = 0;      					/* Index used in EVLR (Evaluation Logic Register) */
+        uint8 slaveConfigured = 0; 					/* Iterator for configured slaves */
+        uint8 numSlaves = 0u;      					/* Counter for number of slaves configured */
+        uint8 index = 0u;          					/* Loop index */
+        uint8 slaveIndex = 0u;     					/* Index into slave[] array */
+        uint8 slave[IFXVADC_MAX_SLAVE_GROUPS] = {0u};       /* Stores the indices of configured slave groups (max 3 supported here) */
+        uint8 evalrValue = 0u;     					/* Bitfield value to configure synchronization register */
+
+        /* Get master index relative to the current group */
+        uint8 masterIndex = IfxVadc_Adc_getMasterKernelIndex(groupIndex, config->master);
+
+        for (index = 0; index < IFXVADC_SYNCHRONIZATION_GROUPS; index++)
+        {
+            /* Check if the bit at position 'index' is set, indicating a slave is configured */
+            if (((config->slaves >> index) & 0x1) == 1u)
+            {
+                /* Check if the number of configured slave groups exceeds the allowed maximum */
+                if (numSlaves > IFXVADC_MAX_SLAVE_GROUPS)
+                {
+                    /* Set error status to indicate that too many slave groups were configured */
+                    status = IfxVadc_Invalid_slaveConfigured;
+
+                    IFX_ASSERT(IFX_VERBOSE_LEVEL_ERROR, FALSE); /* Exceeded max slave group  */
+                }
+                slave[slaveIndex] = index; /* Store the slave group index into the slave[] array */
+                numSlaves++;               /* Increment total number of slaves  */
+                slaveIndex++;              /* Move to next position in slave[] array  */
+            }
+        }
+
+        /* Check for invalid salve configuration */
+        if (numSlaves > 0u)
+        {
+            for (slaveConfigured = 0u; slaveConfigured < numSlaves; slaveConfigured++)
+            {
+                uint8 validSlave = IfxVadc_Adc_masterIndex[config->master][slave[slaveConfigured]];
+
+                if (validSlave == 0)
+                {
+                    /* Set status to indicate that an invalid slave group was configured */
+                    status = IfxVadc_Invalid_slaveConfigured;
+                    break;
+                }
+            }
+        }
+
+        if (status == IfxVadc_Status_noError)
+        {
+            if (config->master == groupIndex)
+            {
+                /* For master */
+                /* This code checks if the current group (groupIndex) is the master. If it is, it iterates through all configured
+                   slave groups and calculates the evalrIndex for each slave relative to the master. If the index is not zero,
+                   it sets the corresponding bit in evalrValue by shifting 1 to the left by evalrIndex - 1. */
+                for (slaveConfigured = 0u; slaveConfigured < numSlaves; slaveConfigured++)
+                {
+                    evalrIndex = IfxVadc_Adc_getEvalrIndex(slave[slaveConfigured], config->master);
+
+                    if (evalrIndex != 0)
+                    {
+                        /* Set the corresponding bit in evalrValue (1-based index, so shift by evalrIndex - 1) */
+                        evalrValue |= 1<<(evalrIndex-1);
+                    }
+                }
+            }
+            else
+            {
+                /* For Slave */
+                /* This code initially gets the EVALR index when the master is setting the evalr index for current slave group, and later it
+                   gets the EVALR index when each slave is setting the current group (if evalrIndex = 1, EVALR1 bit will be set in the GxSYNCTR register, similarly if evalrIndex = 2, EVALR2 bit will be set; if evalrIndex = 3, EVALR3 bit will be set) */
+
+                /* Get the EVALR index when master setting the evalr index for current slave group */
+                evalrIndex = IfxVadc_Adc_getEvalrIndex(config->master, groupIndex);
+                evalrValue = 1<<(evalrIndex - 1u);
+
+                for (slaveConfigured = 0u; slaveConfigured < numSlaves; slaveConfigured++)
+                {
+                    /* Get the EVALR index when other configured slaves setting the evalr index for current slave group */
+                    evalrIndex = IfxVadc_Adc_getEvalrIndex(slave[slaveConfigured], groupIndex);
+
+                    if (evalrIndex != 0)
+                    {
+                        evalrValue |= 1<<(evalrIndex-1);
+                    }
+                }
+            }
+
+            /* Finally, write the synchronization configuration to the SYNCTR register */
+            if (config->master != groupIndex)
+            {
+                vadcG->SYNCTR.U = ((evalrValue << 4u) | (masterIndex));
+            }
+            else
+            {
+                vadcG->SYNCTR.U = (evalrValue << 4u);
+            }
+        }
     }
 
     /* Setup arbiter */

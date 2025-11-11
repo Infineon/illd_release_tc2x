@@ -3,7 +3,7 @@
  * \brief CCU6 on-chip implementation data
  * \ingroup IfxLld_Ccu6
  *
- * \version iLLD_1_20_0
+ * \version iLLD_1_21_0
  * \copyright Copyright (c) 2023 Infineon Technologies AG. All rights reserved.
  *
  *

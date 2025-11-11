@@ -2,7 +2,7 @@
  * \file IfxEbu_Sram.c
  * \brief EBU SRAM details
  *
- * \version iLLD_1_20_0
+ * \version iLLD_1_21_0
  * \copyright Copyright (c) 2019 Infineon Technologies AG. All rights reserved.
  *
  *

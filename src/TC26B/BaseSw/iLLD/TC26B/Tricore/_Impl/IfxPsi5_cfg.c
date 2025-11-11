@@ -2,7 +2,7 @@
  * \file IfxPsi5_cfg.c
  * \brief PSI5 on-chip implementation data
  *
- * \version iLLD_1_20_0
+ * \version iLLD_1_21_0
  * \copyright Copyright (c) 2019 Infineon Technologies AG. All rights reserved.
  *
  *

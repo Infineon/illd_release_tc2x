@@ -2,7 +2,7 @@
  * \file IfxPsi5s_Psi5s.c
  * \brief PSI5S PSI5S details
  *
- * \version iLLD_1_20_0
+ * \version iLLD_1_21_0
  * \copyright Copyright (c) 2019 Infineon Technologies AG. All rights reserved.
  *
  *

@@ -2,7 +2,7 @@
  * \file IfxGpt12_IncrEnc.c
  * \brief GPT12 INCRENC details
  *
- * \version iLLD_1_20_0
+ * \version iLLD_1_21_0
  * \copyright Copyright (c) 2022 Infineon Technologies AG. All rights reserved.
  *
  *

@@ -1,4 +1,0 @@
-[submodule "09_Project_Management"]
-	path = 09_Project_Management
-	url = ssh://git@bitbucket.vih.infineon.com:7999/atvsbst/tc4xx_sw_sbst_pjm.git
-	branch = master

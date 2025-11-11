@@ -24,7 +24,7 @@ B_CONFIG_FILES_FOLDER:= 1_ToolEnv/0_Build/1_Config
 B_TOOLCHAINS_ROOT?= C:\Tools\Compilers
 
 #Used iLLD version number in the template project
-ILLD_VERSION:= V1.20.0
+ILLD_VERSION:= V1.21.0
 
 #Include all the required/available configuration files
 -include $(B_CONFIG_FILES_FOLDER)/*/Conf*.mk \

@@ -2,7 +2,7 @@
  * \file IfxScuCcu.c
  * \brief SCU  basic functionality
  *
- * \version iLLD_1_20_0
+ * \version iLLD_1_21_0
  * \copyright Copyright (c) 2023 Infineon Technologies AG. All rights reserved.
  *
  *

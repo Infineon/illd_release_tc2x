@@ -2,8 +2,8 @@
  * \file IfxStm_Timer.c
  * \brief STM TIMER details
  *
- * \version iLLD_1_20_0
- * \copyright Copyright (c) 2023 Infineon Technologies AG. All rights reserved.
+ * \version iLLD_1_21_0
+ * \copyright Copyright (c) 2025 Infineon Technologies AG. All rights reserved.
  *
  *
  *

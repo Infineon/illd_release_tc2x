@@ -3,7 +3,7 @@
  * \brief I2C I/O map
  * \ingroup IfxLld_I2c
  *
- * \version iLLD_1_20_0
+ * \version iLLD_1_21_0
  * \copyright Copyright (c) 2013 Infineon Technologies AG. All rights reserved.
  *
  *

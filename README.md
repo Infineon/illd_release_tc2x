@@ -17,7 +17,7 @@ For instructions on integrating the BlinkyLed example files into the TC2xx Basef
 
 
 ## iLLD Version Information
-* iLLD Release version: V1.20.0
+* iLLD Release version: V1.21.0
 
 
 ## Revision History

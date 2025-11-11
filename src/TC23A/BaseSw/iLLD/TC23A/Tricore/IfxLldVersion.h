@@ -1,6 +1,6 @@
 /**
  *
- * \version iLLD_1_20_0
+ * \version iLLD_1_21_0
  * \copyright Copyright (c) 2024 Infineon Technologies AG. All rights reserved.
  *
  *
@@ -41,7 +41,7 @@
 #define IFX_LLD_VERSION_H
 
 #define IFX_LLD_VERSION_MAJOR             1   /**< \brief Informs about changes which could lead to incompatibilities */
-#define IFX_LLD_VERSION_MINOR            20   /**< \brief Informs about new additions to the library */
+#define IFX_LLD_VERSION_MINOR            21   /**< \brief Informs about new additions to the library */
 #define IFX_LLD_VERSION_REVISION          0   /**< \brief Informs about patches and/or documentation changes */
 
 #endif /* IFX_LLD_VERSION_H */

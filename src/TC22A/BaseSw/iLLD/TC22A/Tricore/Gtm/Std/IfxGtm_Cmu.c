@@ -2,7 +2,7 @@
  * \file IfxGtm_Cmu.c
  * \brief GTM  basic functionality
  *
- * \version iLLD_1_20_0
+ * \version iLLD_1_21_0
  * \copyright Copyright (c) 2024 Infineon Technologies AG. All rights reserved.
  *
  *
@@ -283,7 +283,7 @@ void IfxGtm_Cmu_setEclkFrequency(Ifx_GTM *gtm, IfxGtm_Cmu_Eclk clkIndex, float32
 {
     float32 f;
     float32 bestDistance = frequency;
-    float32 fIn          = IfxGtm_Cmu_getGclkFrequency(gtm) * 2;
+    float32 fIn          = IfxGtm_Cmu_getGclkFrequency(gtm);
     uint32  z, n, nBest = 1, zBest = 1;
     float32 t;
 
@@ -295,7 +295,7 @@ void IfxGtm_Cmu_setEclkFrequency(Ifx_GTM *gtm, IfxGtm_Cmu_Eclk clkIndex, float32
         for (n = z; n > 0; n--)
         {
             float32 distance;
-            f        = t * n;
+            f        = t * n / 2.0f;
             distance = fabsf(frequency - f);
 
             if (distance < bestDistance)

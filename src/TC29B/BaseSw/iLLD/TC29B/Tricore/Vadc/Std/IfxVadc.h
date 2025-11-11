@@ -3,7 +3,7 @@
  * \brief VADC  basic functionality
  * \ingroup IfxLld_Vadc
  *
- * \version iLLD_1_20_0
+ * \version iLLD_1_21_0
  * \copyright Copyright (c) 2023 Infineon Technologies AG. All rights reserved.
  *
  *
@@ -455,13 +455,14 @@ typedef enum
  */
 typedef enum
 {
-    IfxVadc_Status_noError              = 0, /**< \brief No error during api execution */
-    IfxVadc_Status_notInitialised       = 1, /**< \brief Appropriate initialisation not done */
-    IfxVadc_Status_invalidGroup         = 2, /**< \brief Invalid group number */
-    IfxVadc_Status_invalidChannel       = 3, /**< \brief Invalid channel number */
-    IfxVadc_Status_queueFull            = 4, /**< \brief Queue is full */
-    IfxVadc_Status_noAccess             = 5, /**< \brief Access to the group/channel is disabled */
-    IfxVadc_Status_channelsStillPending = 6  /**< \brief Conversion for some of the channels are still pending */
+    IfxVadc_Status_noError                = 0,  /**< \brief No error during api execution */
+    IfxVadc_Status_notInitialised         = 1,  /**< \brief Appropriate initialisation not done */
+    IfxVadc_Status_invalidGroup           = 2,  /**< \brief Invalid group number */
+    IfxVadc_Status_invalidChannel         = 3,  /**< \brief Invalid channel number */
+    IfxVadc_Status_queueFull              = 4,  /**< \brief Queue is full */
+    IfxVadc_Status_noAccess               = 5,  /**< \brief Access to the group/channel is disabled */
+    IfxVadc_Status_channelsStillPending   = 6,  /**< \brief Conversion for some of the channels are still pending */
+    IfxVadc_Invalid_slaveConfigured       = 7   /**< \brief Invalid slave configured */
 } IfxVadc_Status;
 
 /** \brief trigger definition defined in MODULE_VADC.G[x].QCTRL0.XTMODE(x=0,1,..,11)

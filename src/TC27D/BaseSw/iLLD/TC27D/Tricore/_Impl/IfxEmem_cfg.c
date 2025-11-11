@@ -2,7 +2,7 @@
  * \file IfxEmem_cfg.c
  * \brief EMEM on-chip implementation data
  *
- * \version iLLD_1_20_0
+ * \version iLLD_1_21_0
  * \copyright Copyright (c) 2017 Infineon Technologies AG. All rights reserved.
  *
  *

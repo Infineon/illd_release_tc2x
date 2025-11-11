@@ -2,7 +2,7 @@
  * \file IfxGtm_Atom_PwmHl.c
  * \brief GTM PWMHL details
  *
- * \version iLLD_1_20_0
+ * \version iLLD_1_21_0
  * \copyright Copyright (c) 2023 Infineon Technologies AG. All rights reserved.
  *
  *

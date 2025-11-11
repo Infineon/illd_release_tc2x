@@ -3,7 +3,7 @@
  * \brief VADC ADC details
  * \ingroup IfxLld_Vadc
  *
- * \version iLLD_1_20_0
+ * \version iLLD_1_21_0
  * \copyright Copyright (c) 2023 Infineon Technologies AG. All rights reserved.
  *
  *
@@ -535,6 +535,7 @@ typedef struct
 {
     IFX_CONST IfxVadc_Adc           *module;                                     /**< \brief Specifies pointer to the IfxVadc_Adc module handle */
     IfxVadc_GroupId                  groupId;                                    /**< \brief Specifies the group/kernel id */
+    uint16                           slaves;                                     /**< \brief Specifies the number of slaves configured (Bit0: Slave 0(IfxVadc_GroupId_0 ), Bit1: slave 1(IfxVadc_GroupId_1),.....Bit3: Slave 3(IfxVadc_GroupId_3) */
     IfxVadc_GroupId                  master;                                     /**< \brief Specifies the master group. If master is different from groupId, then the group is configured as slave. */
     IfxVadc_Adc_ClassConfig          inputClass[IFXVADC_NUM_INPUTCLASSES];       /**< \brief Specifies conversion settings one and two */
     IfxVadc_Adc_ScanConfig           scanRequest;                                /**< \brief Specifies scan mode configuration */

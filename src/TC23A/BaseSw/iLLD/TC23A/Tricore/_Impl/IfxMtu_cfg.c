@@ -2,7 +2,7 @@
  * \file IfxMtu_cfg.c
  * \brief Mtu on-chip implementation data
  *
- * \version iLLD_1_20_0
+ * \version iLLD_1_21_0
  * \copyright Copyright (c) 2015 Infineon Technologies AG. All rights reserved.
  *
  *

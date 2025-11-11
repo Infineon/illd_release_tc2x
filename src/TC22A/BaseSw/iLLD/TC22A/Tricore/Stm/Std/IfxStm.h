@@ -3,8 +3,8 @@
  * \brief STM  basic functionality
  * \ingroup IfxLld_Stm
  *
- * \version iLLD_1_20_0
- * \copyright Copyright (c) 2023 Infineon Technologies AG. All rights reserved.
+ * \version iLLD_1_21_0
+ * \copyright Copyright (c) 2025 Infineon Technologies AG. All rights reserved.
  *
  *
  *
@@ -103,7 +103,7 @@
  *     IfxStm_initCompareConfig(&stmConfig);
  *
  *     // configure to generate interrupt every 10 us
- *     sint32 ticks = IfxStm_getTicksFromMicroseconds(10);
+ *     uint32 ticks = IfxStm_getTicksFromMicroseconds(10);
  *
  *     stmConfig.ticks = ticks;
  *
@@ -438,14 +438,14 @@ IFX_INLINE uint32 IfxStm_getCompare(Ifx_STM *stm, IfxStm_Comparator comparator);
  * \param microSeconds Number of micro seconds that need to be converted to ticks
  * \return ticks
  */
-IFX_INLINE sint32 IfxStm_getTicksFromMicroseconds(Ifx_STM *stm, uint32 microSeconds);
+IFX_INLINE uint32 IfxStm_getTicksFromMicroseconds(Ifx_STM *stm, uint32 microSeconds);
 
 /** \brief Returns the number of ticks for the selected milli seconds based on the STM frequency.
  * \param stm pointer to System timer module registers.
  * \param milliSeconds Number of micro seconds that need to be converted to ticks
  * \return ticks
  */
-IFX_INLINE sint32 IfxStm_getTicksFromMilliseconds(Ifx_STM *stm, uint32 milliSeconds);
+IFX_INLINE uint32 IfxStm_getTicksFromMilliseconds(Ifx_STM *stm, uint32 milliSeconds);
 
 /** \brief Update the compare register value increased with given ticks.
  * \param stm pointer to System timer module registers.
@@ -655,16 +655,16 @@ IFX_INLINE uint32 IfxStm_getOffsetTimer(Ifx_STM *stm, uint8 offset)
 }
 
 
-IFX_INLINE sint32 IfxStm_getTicksFromMicroseconds(Ifx_STM *stm, uint32 microSeconds)
+IFX_INLINE uint32 IfxStm_getTicksFromMicroseconds(Ifx_STM *stm, uint32 microSeconds)
 {
-    sint32 freq = (sint32)IfxStm_getFrequency(stm);
+    uint32 freq = (uint32)IfxStm_getFrequency(stm);
     return (freq / (1000000)) * microSeconds;
 }
 
 
-IFX_INLINE sint32 IfxStm_getTicksFromMilliseconds(Ifx_STM *stm, uint32 milliSeconds)
+IFX_INLINE uint32 IfxStm_getTicksFromMilliseconds(Ifx_STM *stm, uint32 milliSeconds)
 {
-    sint32 freq = (sint32)IfxStm_getFrequency(stm);
+    uint32 freq = (uint32)IfxStm_getFrequency(stm);
     return (freq / (1000)) * milliSeconds;
 }
 
